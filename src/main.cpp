@@ -6,21 +6,21 @@
 #define SDA 8
 #define SCL 9
 //---REGISTROS---//
-#define PWM_MGMT_1    0x6B  //Reg 107: Power Management 1, pag 40
+#define PWM_MGMT_1    0x6B  //Reg 107:Power Management 1, pag 40
 #define ACCEL_CONFIG  0x1C  //Reg 28: Configuración del acelerometro, pag 15 
-#define ACCEL_XOUT_H  0x3B  //Reg 59: Salida HIGH X
-#define ACCEL_XOUT_L  0x3C  //Reg 60: Salida LOX X
-#define ACCEL_YOUT_H  0x3D  //Reg 61: Salida HIGH Y 
+#define ACCEL_XOUT_H  0x3B  //Reg 59: Salida HIGH X  
+#define ACCEL_XOUT_L  0x3C  //Reg 60: Salida LOW X
+#define ACCEL_YOUT_H  0x3D  //Reg 61: Salida HIGH Y
 #define ACCEL_YOUT_L  0x3E  //Reg 62: Salida LOW Y
 #define ACCEL_ZOUT_H  0x3F  //Reg 63: Salida HIGH Z
 #define ACCEL_ZOUT_L  0x40  //Reg 64: Salida LOW Z
-#define GYRO_CONFIG   0X1A   
-#define GYRO_XOUT_H   0X43  //Reg 67: Salida HIGH x
-#define GYRO_XOUT_L   0X44
-#define GYRO_YOUT_H   0X45
-#define GYRO_YOUT_L   0X46
-#define GYRO_ZOUT_H   0X47
-#define GYRO_ZOUT_L   0X48   
+#define GYRO_CONFIG   0X1A  //Reg 27: Configuración del giroscopio, pag 14
+#define GYRO_XOUT_H   0X43  //Reg 67: Salida HIGH X
+#define GYRO_XOUT_L   0X44  //Reg 68: Salida LOW X
+#define GYRO_YOUT_H   0X45  //Reg 69: Salida HIGH Y 
+#define GYRO_YOUT_L   0X46  //Reg 70: Salida LOW Y 
+#define GYRO_ZOUT_H   0X47  //Reg 71: Salida HIGH Z
+#define GYRO_ZOUT_L   0X48  //Reg 72: Salida LOW Z
 //---WAKE-UP---//
 void wakeUp(){
   Wire.beginTransmission(PWM_MGMT_1);
@@ -69,6 +69,7 @@ void configGyro(uint8_t reg, uint8_t value){
     Serial.println("Config Failled");
   }
 } 
+//---INICIALIZACION---//
 void init(){
   configAccel(ACCEL_CONFIG,0X00);
   delay(500);
@@ -98,6 +99,7 @@ void ACCEL(){
   Serial.print(" | Y: "); Serial.print(Ay); Serial.print(" g");
   Serial.print(" | Z: "); Serial.print(Az); Serial.println(" g");
 }
+//---LECTURA Y CONVERSION GIROSCOPIO---//
 void GYRO(){
   float Gx = Read(GYRO_XOUT_H,GYRO_XOUT_L)/131.0;
   float Gy = Read(GYRO_YOUT_H,GYRO_YOUT_L)/131.0;
